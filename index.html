@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin</title>
+    <style>
+        body { font-family: sans-serif; padding: 2rem; background: #f9f9f9; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;}
+        .card { background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem; border: 1px solid #ddd;}
+        .form-inline { display: flex; gap: 1rem; margin-bottom: 1rem; }
+        button { padding: 0.5rem 1rem; cursor: pointer; }
+        .btn-logout { background: transparent; border: 1px solid #ccc; }
+        .btn-reset { border: 1px solid red; color: red; background: transparent;}
+        ul { list-style: none; padding: 0; }
+        li { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #eee; }
+    </style>
+    <script type="module" src="dist/admin.js" defer></script>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <h1>Dashboard Admin</h1>
+            <p>Halo, <span id="adminName"></span> | Role: <span id="adminRole"></span></p>
+        </div>
+        <div>
+            <button id="resetBtn" class="btn-reset">Reset Antrian</button>
+            <button id="logoutBtn" class="btn-logout">Keluar</button>
+        </div>
+    </div>
+
+    <div style="display: flex; gap: 2rem;">
+        <!-- Manajemen Jenis Antrian -->
+        <div class="card" style="flex: 1;">
+            <h3>Jenis Antrian</h3>
+            <form id="queueForm" class="form-inline">
+                <input type="text" id="queueCode" placeholder="Kode (misal: C)" maxlength="1" required style="width: 50px; text-transform: uppercase;">
+                <input type="text" id="queueName" placeholder="Nama Layanan" required style="flex: 1;">
+                <button type="submit" style="background: #222; color: white; border: none;">Tambah</button>
+            </form>
+            <ul id="queueList"></ul>
+        </div>
+
+        <!-- Penerbitan Manual -->
+        <div class="card" style="flex: 1;">
+            <h3>Terbitkan Tiket (Manual)</h3>
+            <form id="manualTicketForm" class="form-inline">
+                <select id="queueSelect" required>
+                    <option value="">Pilih jenis antrian</option>
+                </select>
+                <select id="prioritySelect">
+                    <option value="Normal">Normal</option>
+                    <option value="Lansia">Lansia</option>
+                    <option value="Disabilitas">Disabilitas</option>
+                    <option value="VIP">VIP</option>
+                </select>
+                <button type="submit">Terbitkan</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

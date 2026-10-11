@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Antrian</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #f4f7f6; }
+        .login-box { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 300px; }
+        .input-group { margin-bottom: 1rem; }
+        .input-group label { display: block; margin-bottom: 0.5rem; }
+        .input-group input { width: 100%; padding: 0.5rem; box-sizing: border-box; }
+        button { width: 100%; padding: 0.75rem; background: #f0ad4e; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;}
+        .error { color: red; font-size: 0.875rem; margin-top: 0.5rem; display: none; }
+    </style>
+    <!-- Hubungkan ke JS hasil kompilasi TS -->
+    <script type="module" src="dist/login.js" defer></script>
+</head>
+<body>
+    <div class="login-box">
+        <h2>Masuk</h2>
+        <p>Halaman ini untuk mengakses Dashboard Admin dan Panel Operator.</p>
+        <form id="loginForm">
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" required value="emilys">
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required value="emilyspass">
+            </div>
+            <button type="submit" id="loginBtn">Memproses...</button>
+            <p id="errorMsg" class="error">Username atau password salah!</p>
+        </form>
+    </div>
+</body>
+</html>
