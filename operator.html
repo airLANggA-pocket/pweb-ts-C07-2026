@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Operator</title>
+    <style>
+        * { box-sizing: border-box; }
+        [hidden] { display: none !important; }
+        body { font-family: sans-serif; margin: 0; padding: 2rem; background: #f9f9f9; color: #222; }
+        .header { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+        .header h1 { margin: 0 0 0.25rem; }
+        .header p { margin: 0; }
+        .header-actions { display: flex; gap: 0.5rem; align-items: center; }
+        button, .btn-link { padding: 0.5rem 1rem; cursor: pointer; font: inherit; border-radius: 4px; border: 1px solid #ccc; background: white; color: inherit; text-decoration: none; }
+        button:focus-visible, select:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid #f0ad4e; outline-offset: 2px; }
+        button:disabled { opacity: 0.45; cursor: not-allowed; }
+        .btn-logout { background: transparent; }
+
+        .card { background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem; border: 1px solid #ddd; }
+        .card h3 { margin-top: 0; }
+
+        .toolbar { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+        .toolbar label { font-weight: bold; }
+        .toolbar select { padding: 0.5rem; min-width: 220px; font: inherit; }
+        .toolbar .sound { margin-left: auto; display: flex; gap: 0.4rem; align-items: center; font-weight: normal; }
+
+        .layout { display: grid; grid-template-columns: 3fr 2fr; gap: 1rem; align-items: start; }
+
+        .now { text-align: center; padding: 2rem 1rem; }
+        .now .label { margin: 0; color: #666; }
+        .now .number { font-size: 5rem; font-weight: bold; line-height: 1.1; margin: 0.25rem 0; letter-spacing: 0.04em; }
+        .now .meta { margin: 0; color: #666; min-height: 1.25rem; }
+        .next-row { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid #eee; display: flex; justify-content: center; gap: 0.5rem; align-items: baseline; }
+        .next-row .next-number { font-size: 1.5rem; font-weight: bold; }
+        .next-row .next-meta { color: #666; }
+
+        .actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.5rem; }
+        .actions button { flex: 1; min-width: 130px; padding: 0.75rem 1rem; font-weight: bold; }
+        .btn-primary { background: #f0ad4e; border-color: #f0ad4e; }
+        .btn-skip { color: #b02a2a; border-color: #b02a2a; }
+
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem; }
+        .stat { background: #f4f7f6; border-radius: 6px; padding: 0.75rem; text-align: center; }
+        .stat strong { display: block; font-size: 1.5rem; }
+        .stat span { font-size: 0.85rem; color: #555; }
+
+        ul { list-style: none; padding: 0; margin: 0; max-height: 320px; overflow-y: auto; }
+        li { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; padding: 0.5rem 0; border-bottom: 1px solid #eee; }
+        li > div { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+        li small { color: #777; }
+        li.empty { color: #888; justify-content: center; }
+        li button { padding: 0.25rem 0.6rem; font-size: 0.85rem; }
+
+        .badge { font-size: 0.75rem; padding: 0.1rem 0.5rem; border-radius: 999px; background: #e8e8e8; }
+        .badge-vip { background: #f6d77a; }
+        .badge-disabilitas { background: #bfe0f5; }
+        .badge-lansia { background: #cfe9cf; }
+
+        #toast { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); background: #222; color: white; padding: 0.6rem 1.2rem; border-radius: 6px; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+        #toast.show { opacity: 1; }
+
+        @media (max-width: 800px) {
+            body { padding: 1rem; }
+            .layout { grid-template-columns: 1fr; }
+            .now .number { font-size: 3.5rem; }
+            .toolbar .sound { margin-left: 0; }
+        }
+        @media (prefers-reduced-motion: reduce) { #toast { transition: none; } }
+    </style>
+    <script type="module" src="dist/operator.js" defer></script>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <h1>Panel Operator</h1>
+            <p>Halo, <span id="operatorName"></span> | Role: <span id="operatorRole"></span></p>
+        </div>
+        <div class="header-actions">
+            <a id="adminLink" class="btn-link" href="index.html" hidden>Dashboard Admin</a>
+            <button id="logoutBtn" class="btn-logout" type="button">Keluar</button>
+        </div>
+    </div>
+
+    <div class="card toolbar">
+        <label for="queueSelect">Layani antrian</label>
+        <select id="queueSelect"></select>
+        <label class="sound"><input type="checkbox" id="soundToggle"> Suara panggilan</label>
+    </div>
+
+    <div class="layout">
+        <!-- Panel pemanggilan -->
+        <div class="card">
+            <div class="now" aria-live="polite">
+                <p class="label">Sedang dipanggil</p>
+                <div id="currentTicket" class="number">-</div>
+                <p id="currentMeta" class="meta"></p>
+                <div class="next-row">
+                    <span>Berikutnya:</span>
+                    <span id="nextTicket" class="next-number">-</span>
+                    <span id="nextMeta" class="next-meta"></span>
+                </div>
+            </div>
+            <div class="actions">
+                <button id="btnNext" class="btn-primary" type="button">Panggil Berikutnya</button>
+                <button id="btnRecall" type="button">Panggil Ulang</button>
+                <button id="btnFinish" type="button">Selesai</button>
+                <button id="btnSkip" class="btn-skip" type="button">Lewati</button>
+            </div>
+        </div>
+
+        <!-- Daftar tiket -->
+        <div>
+            <div class="card">
+                <div class="stats">
+                    <div class="stat"><strong id="statWaiting">0</strong><span>Menunggu</span></div>
+                    <div class="stat"><strong id="statFinished">0</strong><span>Selesai</span></div>
+                    <div class="stat"><strong id="statSkipped">0</strong><span>Dilewati</span></div>
+                </div>
+                <h3>Urutan tunggu</h3>
+                <ul id="waitingList"></ul>
+            </div>
+            <div class="card">
+                <h3>Tiket dilewati</h3>
+                <ul id="skippedList"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" role="status"></div>
+</body>
+</html>
