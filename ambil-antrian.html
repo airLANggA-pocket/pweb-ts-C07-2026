@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ambil Nomor Antrian</title>
+  <link rel="stylesheet" href="css/publik.css">
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div>
+        <h1>Ambil nomor antrian</h1>
+        <p class="subtitle">Pilih jenis layanan untuk mengambil nomor antrian.</p>
+      </div>
+      <nav class="nav" aria-label="Halaman publik">
+        <a href="layar.html">Layar antrian</a>
+        <a href="ambil-antrian.html" aria-current="page">Ambil nomor</a>
+      </nav>
+    </header>
+
+    <p id="notice" class="notice" role="alert" hidden></p>
+
+    <section id="result" class="result" aria-live="polite" hidden>
+      <p class="result-label">Nomor antrian Anda</p>
+      <p id="result-number" class="result-number"></p>
+      <p id="result-queue" class="result-queue"></p>
+      <p id="result-meta" class="result-meta"></p>
+      <button id="result-close" class="result-close" type="button">Tutup</button>
+    </section>
+
+    <main id="queue-grid" class="grid" aria-label="Daftar layanan"></main>
+
+    <p id="status" class="status"></p>
+  </div>
+
+  <script type="module" src="dist/ambil-antrian.js" defer></script>
+</body>
+</html>

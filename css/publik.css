@@ -1,0 +1,432 @@
+/* Gaya bersama untuk halaman publik: ambil-antrian.html dan layar.html */
+
+:root {
+  --bg: #f1f6f5;
+  --surface: #ffffff;
+  --ink: #12263a;
+  --muted: #566677;
+  --line: #d3dedc;
+  --accent: #f5a524;
+  --accent-hover: #e39512;
+  --accent-text: #9a4a05;
+  --accent-soft: #fff3dc;
+  --danger: #b42318;
+  --danger-soft: #fdecea;
+
+  --font: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* ---------- Kerangka halaman ---------- */
+
+.page {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 2.5rem;
+}
+
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.topbar h1 {
+  font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.subtitle {
+  margin-top: 0.25rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Navigasi antar halaman: satu kelompok, halaman aktif diisi penuh */
+.nav {
+  display: inline-flex;
+  padding: 3px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.nav a {
+  padding: 0.4rem 0.85rem;
+  border-radius: 7px;
+  color: var(--ink);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.nav a:hover {
+  background: var(--bg);
+}
+
+.nav a[aria-current="page"] {
+  background: var(--ink);
+  color: #fff;
+}
+
+.btn-tool {
+  padding: 0.5rem 0.9rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.btn-tool:hover {
+  border-color: var(--ink);
+}
+
+.btn-tool[aria-pressed="true"] {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+
+.status {
+  margin-top: 1.5rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* ---------- Kartu jenis antrian ---------- */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 1.1rem 1.1rem 1rem;
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.card-head h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.badge {
+  flex: none;
+  min-width: 1.75rem;
+  padding: 0.1rem 0.5rem;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  padding: 2.5rem 1rem;
+  background: var(--surface);
+  border: 1px dashed var(--line);
+  border-radius: 16px;
+  text-align: center;
+}
+
+.empty-state strong {
+  display: block;
+  font-size: 1.05rem;
+}
+
+.empty-state span {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* ---------- Halaman ambil antrian ---------- */
+
+.card-take .btn-primary {
+  margin-top: 1rem;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background: var(--accent);
+  border: 0;
+  border-radius: 10px;
+  color: var(--ink);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+.priority {
+  margin-top: 0.9rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--line);
+}
+
+.priority-label {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.chips {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+}
+
+.chip {
+  padding: 0.45rem 0.25rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.chip:hover {
+  border-color: var(--ink);
+  background: var(--bg);
+}
+
+.waiting {
+  margin-top: 0.9rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* Hasil pengambilan tiket: elemen paling menonjol di halaman ini */
+.result {
+  position: relative;
+  margin-bottom: 1.5rem;
+  padding: 1.25rem 1.5rem 1.4rem;
+  background: var(--accent-soft);
+  border: 2px solid var(--accent);
+  border-radius: 16px;
+}
+
+.result-label {
+  color: var(--accent-text);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.result-number {
+  margin-top: 0.1rem;
+  font-size: clamp(3.5rem, 12vw, 6rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  font-variant-numeric: tabular-nums;
+}
+
+.result-queue {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.result-meta {
+  margin-top: 0.15rem;
+  color: var(--muted);
+}
+
+.result-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  padding: 0.35rem 0.7rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.notice {
+  margin-bottom: 1.25rem;
+  padding: 0.75rem 1rem;
+  background: var(--danger-soft);
+  border: 1px solid var(--danger);
+  border-radius: 10px;
+  color: var(--danger);
+  font-weight: 600;
+}
+
+/* ---------- Halaman layar antrian ---------- */
+
+.card-display {
+  min-height: 300px;
+}
+
+.card-display.is-called {
+  border-color: var(--accent);
+  box-shadow: inset 0 5px 0 var(--accent);
+}
+
+.display {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+.called-state {
+  color: var(--accent-text);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.called-number {
+  font-size: clamp(3rem, 6vw, 5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.empty-title {
+  font-weight: 600;
+}
+
+.empty-hint {
+  max-width: 20ch;
+  margin-top: 0.25rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.card-display .waiting {
+  margin-top: 0;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--line);
+  text-align: center;
+}
+
+@keyframes called-flash {
+  0% {
+    background: var(--accent-soft);
+  }
+  100% {
+    background: var(--surface);
+  }
+}
+
+.card-display.flash {
+  animation: called-flash 1.8s ease-out;
+}
+
+@media (max-width: 520px) {
+  .page {
+    padding: 1rem 0.9rem 2rem;
+  }
+
+  .result {
+    padding-right: 1.1rem;
+  }
+
+  .result-close {
+    position: static;
+    margin-top: 0.9rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-display.flash {
+    animation: none;
+  }
+
+  .btn-primary:active {
+    transform: none;
+  }
+}
+
+/* Mode layar penuh: beri ruang lebih agar nomor terbaca dari jauh */
+:fullscreen body {
+  overflow: auto;
+}
+
+:fullscreen .grid {
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+}
+
+:fullscreen .called-number {
+  font-size: clamp(4rem, 8vw, 7rem);
+}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Layar Antrian</title>
+  <link rel="stylesheet" href="css/publik.css">
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div>
+        <h1>Nomor sedang dipanggil</h1>
+        <p id="updated" class="subtitle">Memuat data...</p>
+      </div>
+      <div class="toolbar">
+        <nav class="nav" aria-label="Halaman publik">
+          <a href="layar.html" aria-current="page">Layar antrian</a>
+          <a href="ambil-antrian.html">Ambil nomor</a>
+        </nav>
+        <button id="sound-toggle" class="btn-tool" type="button" aria-pressed="false">Suara mati</button>
+        <button id="fullscreen-toggle" class="btn-tool" type="button">Layar penuh</button>
+      </div>
+    </header>
+
+    <main id="display-grid" class="grid" aria-label="Nomor yang sedang dipanggil"></main>
+  </div>
+
+  <script type="module" src="dist/layar.js" defer></script>
+</body>
+</html>
